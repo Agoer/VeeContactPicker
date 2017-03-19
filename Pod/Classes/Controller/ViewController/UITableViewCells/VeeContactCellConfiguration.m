@@ -1,8 +1,3 @@
-//
-//  Created by Andrea Cipriani on 28/03/16.
-//  Copyright © 2016 Code Atlas SRL. All rights reserved.
-//
-
 #import "VeeContactCellConfiguration.h"
 #import "VeeContactUITableViewCell.h"
 #import "UILabel+VeeBoldify.h"
@@ -10,10 +5,10 @@
 #import "UIImageView+AGCInitials.h"
 #import "VeeCommons.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface VeeContactCellConfiguration ()
-
-@property (nonatomic,strong) VeeContactPickerOptions* veeContactPickerOptions;
-
+@property (nonatomic,strong) VeeContactPickerOptions *veeContactPickerOptions;
 @end
 
 @implementation VeeContactCellConfiguration
@@ -71,3 +66,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

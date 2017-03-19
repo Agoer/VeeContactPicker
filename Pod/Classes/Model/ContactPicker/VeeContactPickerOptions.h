@@ -1,11 +1,8 @@
-//
-//  Created by Andrea Cipriani on 14/03/16.
-//  Copyright © 2016 Code Atlas SRL. All rights reserved.
-//
-
-#import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
+@import Foundation;
+@import UIKit;
 @class VeeContactPickerStrings;
+
+NS_ASSUME_NONNULL_BEGIN
 
 @interface VeeContactPickerOptions : NSObject
 
@@ -21,3 +18,5 @@
 @property (nonatomic, strong) UIImage* contactThumbnailImagePlaceholder; //The placeholder image that is shown when showInitialsPlaceholder is NO and the contact doesn't have an image
 
 @end
+
+NS_ASSUME_NONNULL_END

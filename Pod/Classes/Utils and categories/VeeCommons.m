@@ -1,9 +1,6 @@
-//
-//  Created by Andrea Cipriani on 21/03/16.
-//  Copyright © 2016 Code Atlas SRL. All rights reserved.
-//
-
 #import "VeeCommons.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation VeeCommons
 
@@ -23,3 +20,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

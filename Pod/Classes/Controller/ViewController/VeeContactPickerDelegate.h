@@ -1,17 +1,12 @@
-//
-//  Created by Andrea Cipriani on 21/12/15.
-//  Copyright © 2015 Code Atlas SRL. All rights reserved.
-//
-
+@import Foundation;
 #import "VeeContactProt.h"
-#import <Foundation/Foundation.h>
+
+NS_ASSUME_NONNULL_BEGIN
 
 @protocol VeeContactPickerDelegate <NSObject>
-
-@required
-
 - (void)didSelectContact:(id<VeeContactProt>)abContact;
 - (void)didCancelContactSelection;
 - (void)didFailToAccessAddressBook;
-
 @end
+
+NS_ASSUME_NONNULL_END

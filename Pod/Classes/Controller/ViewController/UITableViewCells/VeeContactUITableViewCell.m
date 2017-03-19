@@ -1,21 +1,14 @@
-//
-//  Created by Andrea Cipriani on 14/12/15.
-//  Copyright © 2015 Code Atlas SRL. All rights reserved.
-//
-
+@import QuartzCore;
 #import "VeeContactPickerAppearanceConstants.h"
 #import "VeeContactUITableViewCell.h"
-#import <QuartzCore/QuartzCore.h>
 #import "FLKAutoLayout.h"
 #import "VeeContactPickerAppearanceConstants.h"
 
-@interface VeeContactUITableViewCell ()
-
-@end
-
 @implementation VeeContactUITableViewCell
 
-- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+NS_ASSUME_NONNULL_BEGIN
+
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(nullable NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
 
@@ -25,10 +18,8 @@
     
     self.backgroundColor = [[VeeContactPickerAppearanceConstants sharedInstance] veeContactCellBackgroundColor];
     [self setCellSelectedBackgroundColor];
-    
     [self addContactImageViewToSubView];
     [self addPrimaryLabelToSubView];
-    
     return self;
 }
 
@@ -41,26 +32,22 @@
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
-    //Avoid background color disappering when selecting cell, see http://stackoverflow.com/questions/5222736/uiview-backgroundcolor-disappears-when-uitableviewcell-is-selected
-
     UIColor* backgroundColor = _contactImageView.backgroundColor;
     [super setSelected:selected animated:animated];
-    _contactImageView.backgroundColor = backgroundColor;
+    self.contactImageView.backgroundColor = backgroundColor;
 }
 
 - (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated
 {
-    //Avoid background color disappering when selecting cell, see http://stackoverflow.com/questions/5222736/uiview-backgroundcolor-disappears-when-uitableviewcell-is-selected
-
     UIColor* backgroundColor = _contactImageView.backgroundColor;
     [super setHighlighted:highlighted animated:animated];
-    _contactImageView.backgroundColor = backgroundColor;
+    self.contactImageView.backgroundColor = backgroundColor;
 }
 
 -(void)prepareForReuse
 {
-    _primaryLabel.text = @"";
-    _contactImageView.image = nil;
+    self.primaryLabel.text = @"";
+    self.contactImageView.image = nil;
 }
 
 #pragma mark - Private
@@ -73,37 +60,37 @@
 -(void)addContactImageViewToSubView
 {
     CGFloat contactImageViewDiameter = [[[VeeContactPickerAppearanceConstants sharedInstance] veeContactCellImageDiameter] floatValue];
-    _contactImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, contactImageViewDiameter, contactImageViewDiameter)];
+    self.contactImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, contactImageViewDiameter, contactImageViewDiameter)];
     [self addSubview:_contactImageView];
-    _contactImageView.layer.cornerRadius = [[[VeeContactPickerAppearanceConstants sharedInstance] veeContactCellImageDiameter] floatValue] / 2;
-    _contactImageView.contentMode = UIViewContentModeScaleAspectFill;
-    _contactImageView.clipsToBounds = YES;
+    self.contactImageView.layer.cornerRadius = [[[VeeContactPickerAppearanceConstants sharedInstance] veeContactCellImageDiameter] floatValue] / 2;
+    self.contactImageView.contentMode = UIViewContentModeScaleAspectFill;
+    self.contactImageView.clipsToBounds = YES;
     [self setConstraintsForContactImageView];
 }
 
 -(void)addPrimaryLabelToSubView
 {
-    _primaryLabel = [UILabel new];
+    self.primaryLabel = [UILabel new];
     [self addSubview:_primaryLabel];
-    _primaryLabel.font = [[VeeContactPickerAppearanceConstants sharedInstance] veeContactCellPrimaryLabelFont];
+    self.primaryLabel.font = [[VeeContactPickerAppearanceConstants sharedInstance] veeContactCellPrimaryLabelFont];
     [self setConstraintsForPrimaryLabel];
 }
 
 -(void)setConstraintsForContactImageView
 {
     NSString* contactImageViewDiameterString = [[[VeeContactPickerAppearanceConstants sharedInstance] veeContactCellImageDiameter] stringValue];
-    [_contactImageView constrainWidth:contactImageViewDiameterString height:contactImageViewDiameterString];
+    [self.contactImageView constrainWidth:contactImageViewDiameterString height:contactImageViewDiameterString];
  
     NSString* contactImageViewMarginString = [[self contactImageViewMargin] stringValue];
-    [_contactImageView alignTop:contactImageViewMarginString leading:contactImageViewMarginString bottom:contactImageViewMarginString trailing:@"0" toView:self.contentView];
+    [self.contactImageView alignTop:contactImageViewMarginString leading:contactImageViewMarginString bottom:contactImageViewMarginString trailing:@"0" toView:self.contentView];
 }
 
 -(void)setConstraintsForPrimaryLabel
 {
-    [_primaryLabel alignCenterYWithView:_contactImageView predicate:@"0"];
+    [self.primaryLabel alignCenterYWithView:_contactImageView predicate:@"0"];
     CGFloat horizontalMarginFromContactImageView = 16;
-    [_primaryLabel constrainLeadingSpaceToView:_contactImageView predicate:[@(horizontalMarginFromContactImageView) stringValue]];
-    [_primaryLabel constrainWidth:[[self cellWidthWithoutPrimaryLabelWithHorizontalMarginFromContactImageView:horizontalMarginFromContactImageView andHorizontalTrailingSpaceToSuperView:16] stringValue]];
+    [self.primaryLabel constrainLeadingSpaceToView:_contactImageView predicate:[@(horizontalMarginFromContactImageView) stringValue]];
+    [self.primaryLabel constrainWidth:[[self cellWidthWithoutPrimaryLabelWithHorizontalMarginFromContactImageView:horizontalMarginFromContactImageView andHorizontalTrailingSpaceToSuperView:16] stringValue]];
 }
 
 -(NSNumber*)contactImageViewMargin
@@ -120,3 +107,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

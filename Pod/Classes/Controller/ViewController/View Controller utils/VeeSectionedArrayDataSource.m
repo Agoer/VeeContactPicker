@@ -1,13 +1,9 @@
-//
-//  Created by Andrea Cipriani on 18/03/16,
-//  Copyright © 2015 Code Atlas SRL. All rights reserved.
-//
-
 #import "VeeSectionedArrayDataSource.h"
 #import "VeeContactPickerAppearanceConstants.h"
 
-@interface VeeSectionedArrayDataSource()
+NS_ASSUME_NONNULL_BEGIN
 
+@interface VeeSectionedArrayDataSource()
 @property (nonatomic, strong) NSDictionary<NSString*,NSArray<id<VeeSectionableProt>>*>* sectionedItems;
 @property (nonatomic, strong) NSDictionary<NSString*,NSArray<id<VeeSectionableProt>>*>* sectionedSearchedItems;
 @property (nonatomic, strong) NSArray<NSString*>* sortedNonEmptySectionIdentifiers;
@@ -17,7 +13,6 @@
 @property (nonatomic, copy) NSString* sectionIdentifierWildcard;
 @property (nonatomic, copy) ConfigureCellBlock configureCellBlock;
 @property (nonatomic, strong) UITableView *searchTableView;
-
 @end
 
 @implementation VeeSectionedArrayDataSource
@@ -56,11 +51,11 @@
 -(void)setSearchResults:(NSArray<id<VeeSectionableProt>>*)searchResults forSearchTableView:(UITableView*)searchTableView
 {
     if (searchTableView){
-        _searchTableView = searchTableView;
+        self.searchTableView = searchTableView;
     }
     if (searchResults){
-        _sectionedSearchedItems = [self sectionedItems:searchResults];
-        _sortedSearchedNonEmptySectionIdentifiers = [self nonEmptySortedSectionIdentifiers:[_sectionedSearchedItems allKeys]];
+        self.sectionedSearchedItems = [self sectionedItems:searchResults];
+        self.sortedSearchedNonEmptySectionIdentifiers = [self nonEmptySortedSectionIdentifiers:[self.sectionedSearchedItems allKeys]];
     }
 }
 
@@ -68,7 +63,7 @@
 {
     NSString* sectionIdenfier = [item sectionIdentifier];
     if (sectionIdenfier == nil || [[self allowedSortedSectionIdentifiers] containsObject:sectionIdenfier] == NO){
-        return _sectionIdentifierWildcard;
+        return self.sectionIdentifierWildcard;
     }
     return sectionIdenfier;
 }
@@ -93,9 +88,9 @@
 
 -(NSArray<NSString*>*)nonEmptySortedSectionIdentifiers:(NSArray<NSString*>*)sectionIdentifiers
 {
-    NSMutableArray* sortedNonEmptySectionIdentifiers = [NSMutableArray arrayWithArray:_allowedSortedSectionIdentifiers];
+    NSMutableArray* sortedNonEmptySectionIdentifiers = [NSMutableArray arrayWithArray:self.allowedSortedSectionIdentifiers];
     
-    for (NSString* sectionIdentifier in _allowedSortedSectionIdentifiers) {
+    for (NSString* sectionIdentifier in self.allowedSortedSectionIdentifiers) {
         if ([sectionIdentifiers containsObject:sectionIdentifier] == NO){
             [sortedNonEmptySectionIdentifiers removeObject:sectionIdentifier];
         }
@@ -109,9 +104,9 @@
 {
     BOOL isSearchTableView = [self isSearchTableView:tableView];
     if (isSearchTableView){
-        return [[_sectionedSearchedItems allKeys] count];
+        return [[self.sectionedSearchedItems allKeys] count];
     }
-    return [[_sectionedItems allKeys] count];
+    return [[self.sectionedItems allKeys] count];
 }
 
 - (NSInteger)tableView:(UITableView*)tableView numberOfRowsInSection:(NSInteger)section
@@ -128,14 +123,14 @@
 
 - (NSArray<NSString*>*)sectionIndexTitlesForTableView:(UITableView*)tableView
 {
-    return _allowedSortedSectionIdentifiers;
+    return self.allowedSortedSectionIdentifiers;
 }
 
 - (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath
 {
-    id cell = [tableView dequeueReusableCellWithIdentifier:_cellIdentifier forIndexPath:indexPath];
+    id cell = [tableView dequeueReusableCellWithIdentifier:self.cellIdentifier forIndexPath:indexPath];
     id item = [self tableView:tableView itemAtIndexPath:indexPath];
-    _configureCellBlock(cell,item);
+    self.configureCellBlock(cell,item);
     return cell;
 }
 
@@ -145,25 +140,27 @@
 {
     NSString* sectionIdentifier = [self sectionIdentifierFromSection:section isSearchTableView:isSearchTableView];
     if (isSearchTableView){
-        return [_sectionedSearchedItems objectForKey:sectionIdentifier];
+        return [self.sectionedSearchedItems objectForKey:sectionIdentifier];
     }
-    return [_sectionedItems objectForKey:sectionIdentifier];
+    return [self.sectionedItems objectForKey:sectionIdentifier];
 }
 
 -(NSString*)sectionIdentifierFromSection:(NSUInteger)section isSearchTableView:(BOOL)isSearchTableView
 {
     if (isSearchTableView){
-        return [_sortedSearchedNonEmptySectionIdentifiers objectAtIndex:section];
+        return [self.sortedSearchedNonEmptySectionIdentifiers objectAtIndex:section];
     }
-    return [_sortedNonEmptySectionIdentifiers objectAtIndex:section];
+    return [self.sortedNonEmptySectionIdentifiers objectAtIndex:section];
 }
 
 -(BOOL)isSearchTableView:(UITableView*)tableView
 {
-    if ([tableView isEqual:_searchTableView]) {
+    if ([tableView isEqual:self.searchTableView]) {
         return YES;
     }
     return NO;
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

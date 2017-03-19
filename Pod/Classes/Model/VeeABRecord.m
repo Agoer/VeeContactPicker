@@ -1,12 +1,8 @@
-//
-//  Created by Andrea Cipriani on 22/03/16.
-//  Copyright © 2016 Code Atlas SRL. All rights reserved.
-//
-
 #import "VeeABRecord.h"
 
-@interface VeeABRecord()
+NS_ASSUME_NONNULL_BEGIN
 
+@interface VeeABRecord()
 @property (nonatomic, strong) NSMutableSet<NSNumber*>* recordIdsMutable;
 @property (nonatomic, strong) NSMutableSet<NSString*>* phoneNumbersMutable;
 @property (nonatomic, strong) NSMutableSet<NSString*>* emailsMutable;
@@ -14,7 +10,6 @@
 @property (nonatomic, strong) NSMutableSet<NSString*>* websitesMutable;
 @property (nonatomic, strong) NSMutableSet<NSString*>* twitterAccountsMutable;
 @property (nonatomic, strong) NSMutableSet<NSString*>* facebookAccountsMutable;
-
 @end
 
 @implementation VeeABRecord
@@ -281,7 +276,6 @@ NSString* const kVeePostalAddressCountryKey = @"Country";
         return YES;
     }
     NSArray<NSNumber*>* sortedRecordIds = [[self recordIds] sortedArrayUsingSelector:@selector(compare:)];
-                                         
     NSArray<NSNumber*>* veeABRecordsSortedRecordIds = [[veeABRecord recordIds] sortedArrayUsingSelector:@selector(compare:)];
                                                      
     if ([sortedRecordIds isEqualToArray:veeABRecordsSortedRecordIds]) {
@@ -296,3 +290,5 @@ NSString* const kVeePostalAddressCountryKey = @"Country";
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

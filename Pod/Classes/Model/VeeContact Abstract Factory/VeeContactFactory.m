@@ -1,11 +1,9 @@
-//  Created by Andrea Cipriani on 22/03/16.
-//  Copyright © 2016 Code Atlas SRL. All rights reserved.
-//
-
 #import "VeeContactFactory.h"
 #import "VeeABRecordsImporter.h"
 #import "VeeABRecord.h"
 #import "VeeContact.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation VeeContactFactory
 
@@ -22,3 +20,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

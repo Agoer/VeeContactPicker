@@ -1,8 +1,3 @@
-//
-//  Created by Andrea Cipriani on 14/12/15.
-//  Copyright © 2015 Code Atlas SRL. All rights reserved.
-//
-
 #import "VeeContactPickerViewController.h"
 
 #import "VeeContactPickerAppearanceConstants.h"
@@ -19,6 +14,8 @@
 #import "VeeContactUITableViewCell.h"
 #import "VeeSectionedArrayDataSource.h"
 #import "VeeTableViewSearchDelegate.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 @interface VeeContactPickerViewController ()
 
@@ -91,7 +88,8 @@
     self = [[VeeContactPickerViewController alloc] initWithNibName:NSStringFromClass(self.class) bundle:_podBundle];
     _veeContactPickerOptions = veeContactPickerOptions;
     _veeContacts = veeContacts;
-    _veeAddressBook = [[VeeAddressBook alloc] initWithVeeABDelegate:self];
+    _veeAddressBook = [[VeeAddressBook alloc] init];
+    _veeAddressBook.delegate = self;
     _veeContactCellConfiguration = [[VeeContactCellConfiguration alloc] initWithVeePickerOptions:_veeContactPickerOptions];
     return self;
 }
@@ -113,7 +111,7 @@
 
     [self loadStrings];
     [self loadPickerAppearance];
-    _addressBookRef = ABAddressBookCreate();
+    self.addressBookRef = ABAddressBookCreate();
     [self loadVeeContacts];
 }
 
@@ -126,18 +124,18 @@
 
 - (void)loadStrings
 {
-    _titleNavigationItem.title = [_veeContactPickerOptions.veeContactPickerStrings navigationBarTitle];
-    _cancelBarButtonItem.title = [_veeContactPickerOptions.veeContactPickerStrings cancelButtonTitle];
+    self.titleNavigationItem.title = [_veeContactPickerOptions.veeContactPickerStrings navigationBarTitle];
+    self.cancelBarButtonItem.title = [_veeContactPickerOptions.veeContactPickerStrings cancelButtonTitle];
 }
 
 - (void)loadPickerAppearance
 {
-    _cancelBarButtonItem.tintColor = [[VeeContactPickerAppearanceConstants sharedInstance] cancelBarButtonItemTintColor];
-    _navigationBar.tintColor = [[VeeContactPickerAppearanceConstants sharedInstance] navigationBarTintColor];
-    _navigationBar.barTintColor = [[VeeContactPickerAppearanceConstants sharedInstance] navigationBarBarTintColor];
-    _navigationBar.translucent = [[VeeContactPickerAppearanceConstants sharedInstance] navigationBarTranslucent];
-    _statusBarCoverView.backgroundColor = [[VeeContactPickerAppearanceConstants sharedInstance] navigationBarBarTintColor];
-    _tableViewBottomMarginConstraint.constant = [[VeeContactPickerAppearanceConstants sharedInstance] veeContactPickerTableViewBottomMargin];
+    self.cancelBarButtonItem.tintColor = [[VeeContactPickerAppearanceConstants sharedInstance] cancelBarButtonItemTintColor];
+    self.navigationBar.tintColor = [[VeeContactPickerAppearanceConstants sharedInstance] navigationBarTintColor];
+    self.navigationBar.barTintColor = [[VeeContactPickerAppearanceConstants sharedInstance] navigationBarBarTintColor];
+    self.navigationBar.translucent = [[VeeContactPickerAppearanceConstants sharedInstance] navigationBarTranslucent];
+    self.statusBarCoverView.backgroundColor = [[VeeContactPickerAppearanceConstants sharedInstance] navigationBarBarTintColor];
+    self.tableViewBottomMarginConstraint.constant = [[VeeContactPickerAppearanceConstants sharedInstance] veeContactPickerTableViewBottomMargin];
     [self hideEmptyView];
 }
 
@@ -172,8 +170,8 @@
 - (void)loadVeeContactsFromAddressBook
 {
     id<VeeContactFactoryProt> veeContactFactoryProt = [VeeContactProtFactoryProducer veeContactProtFactory];
-    _veeContacts = [[veeContactFactoryProt class] veeContactProtsFromAddressBook:_addressBookRef];
-    _veeContacts = [_veeContacts sortedArrayUsingSelector:@selector(compare:)];
+    self.veeContacts = [[veeContactFactoryProt class] veeContactProtsFromAddressBook:_addressBookRef];
+    self.veeContacts = [_veeContacts sortedArrayUsingSelector:@selector(compare:)];
     [self setupTableView];
 }
 
@@ -184,17 +182,17 @@
         [_veeContactCellConfiguration configureCell:cell forVeeContact:veeContact];
     };
     NSString* cellIdentifier = [[VeeContactPickerAppearanceConstants sharedInstance] veeContactCellIdentifier];
-    _veeSectionedArrayDataSource = [[VeeSectionedArrayDataSource alloc] initWithItems:_veeContacts cellIdentifier:cellIdentifier allowedSortedSectionIdentifiers:_veeContactPickerOptions.sectionIdentifiers sectionIdentifierWildcard:_veeContactPickerOptions.sectionIdentifierWildcard configurationCellBlock:veeContactConfigureCellBlock];
+    self.veeSectionedArrayDataSource = [[VeeSectionedArrayDataSource alloc] initWithItems:_veeContacts cellIdentifier:cellIdentifier allowedSortedSectionIdentifiers:_veeContactPickerOptions.sectionIdentifiers sectionIdentifierWildcard:_veeContactPickerOptions.sectionIdentifierWildcard configurationCellBlock:veeContactConfigureCellBlock];
 
-    _contactsTableView.dataSource = _veeSectionedArrayDataSource;
-    _contactsTableView.delegate = self;
-    [_contactsTableView reloadData];
+    self.contactsTableView.dataSource = _veeSectionedArrayDataSource;
+    self.contactsTableView.delegate = self;
+    [self.contactsTableView reloadData];
     [self setupSearchDisplayController];
 }
 
 - (void)setupSearchDisplayController
 {
-    _veeTableViewSearchDelegate = [[VeeTableViewSearchDelegate alloc] initWithSearchDisplayController:self.searchDisplayController dataToFiler:_veeContacts withPredicate:[self predicateToFilterVeeContactProt] andSearchResultsDelegate:self];
+    self.veeTableViewSearchDelegate = [[VeeTableViewSearchDelegate alloc] initWithSearchDisplayController:self.searchDisplayController dataToFiler:_veeContacts withPredicate:[self predicateToFilterVeeContactProt] andSearchResultsDelegate:self];
 
     [self.searchDisplayController setDelegate:_veeTableViewSearchDelegate];
     [self setupSearchTableView];
@@ -218,7 +216,7 @@
 - (void)registerCellsForReuse
 {
     NSString* cellIdentifier = [[VeeContactPickerAppearanceConstants sharedInstance] veeContactCellIdentifier];
-    [_contactsTableView registerClass:[VeeContactUITableViewCell class] forCellReuseIdentifier:cellIdentifier];
+    [self.contactsTableView registerClass:[VeeContactUITableViewCell class] forCellReuseIdentifier:cellIdentifier];
     [self.searchDisplayController.searchResultsTableView registerClass:[VeeContactUITableViewCell class] forCellReuseIdentifier:cellIdentifier];
 }
 
@@ -233,7 +231,7 @@
 {
     NSLog(@"Warning - address book permissions not granted");
     [self showEmptyView];
-    [_contactPickerDelegate didFailToAccessAddressBook];
+    [self.contactPickerDelegate didFailToAccessAddressBook];
 }
 
 #pragma mark - UI
@@ -241,19 +239,18 @@
 - (void)showEmptyView
 {
     dispatch_async(dispatch_get_main_queue(), ^{
-        _emptyViewLabel.hidden = NO;
-        _contactsTableView.hidden = YES;
-        _searchBar.hidden = YES;
+        self.emptyViewLabel.hidden = NO;
+        self.contactsTableView.hidden = YES;
+        self.searchBar.hidden = YES;
     });
 }
 
 -(void)hideEmptyView
 {
     dispatch_async(dispatch_get_main_queue(), ^{
-        _emptyViewLabel.hidden = YES;
-        _contactsTableView.hidden = NO;
-        _searchBar.hidden = NO;
-        
+        self.emptyViewLabel.hidden = YES;
+        self.contactsTableView.hidden = NO;
+        self.searchBar.hidden = NO;
     });
 }
 
@@ -268,8 +265,8 @@
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     id<VeeContactProt> veeContact = [_veeSectionedArrayDataSource tableView:tableView itemAtIndexPath:indexPath];
-    if (_contactPickerDelegate) {
-        [_contactPickerDelegate didSelectContact:veeContact];
+    if (self.contactPickerDelegate) {
+        [self.contactPickerDelegate didSelectContact:veeContact];
     }
     if (_contactSelectionHandler) {
         _contactSelectionHandler(veeContact);
@@ -288,8 +285,10 @@
 
 - (IBAction)cancelBarButtonItemPressed:(id)sender
 {
-    [_contactPickerDelegate didCancelContactSelection];
+    [self.contactPickerDelegate didCancelContactSelection];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

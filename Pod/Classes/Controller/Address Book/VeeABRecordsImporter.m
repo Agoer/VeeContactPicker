@@ -1,10 +1,7 @@
-//
-//  Created by Andrea Cipriani on 14/03/16.
-//  Copyright © 2016 Code Atlas SRL. All rights reserved.
-//
-
 #import "VeeABRecordsImporter.h"
 #import "VeeABRecord.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation VeeABRecordsImporter
 
@@ -13,13 +10,11 @@
 - (NSArray<VeeABRecord*>*)importVeeABRecordsFromAddressBook:(ABAddressBookRef)addressBook
 {
     if (ABAddressBookGetAuthorizationStatus() != kABAuthorizationStatusAuthorized){
-        NSLog(@"Can't import ABRepositoryData because ABAuthStatus is not authorized");
+        NSLog(@"Can't import contacts: ABAuthStatus is not authorized");
         return @[];
     }
-
-    NSParameterAssert(addressBook);
-    NSArray* allSources = (__bridge_transfer NSArray*)(ABAddressBookCopyArrayOfAllSources(addressBook));
-    NSMutableSet<VeeABRecord*>* veeABRecords = [NSMutableSet new];
+    NSArray *allSources = (__bridge_transfer NSArray*)(ABAddressBookCopyArrayOfAllSources(addressBook));
+    NSMutableSet<VeeABRecord*> *veeABRecords = [NSMutableSet new];
 
     for (int s = 0; s < allSources.count; s++) {
         ABRecordRef source = (__bridge ABRecordRef)(allSources[s]);
@@ -41,3 +36,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

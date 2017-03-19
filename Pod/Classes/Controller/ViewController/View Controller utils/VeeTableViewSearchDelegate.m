@@ -1,17 +1,12 @@
-//
-//  Created by Andrea Cipriani on 25/03/16.
-//  Copyright © 2016 Code Atlas SRL. All rights reserved.
-//
-
 #import "VeeTableViewSearchDelegate.h"
 
-@interface VeeTableViewSearchDelegate ()
+NS_ASSUME_NONNULL_BEGIN
 
+@interface VeeTableViewSearchDelegate ()
 @property (nonatomic,strong) UISearchDisplayController* searchDisplayController;
 @property (nonatomic,strong) id<VeeSearchResultsDelegate> searchResultsDelegate;
 @property (nonatomic,strong) NSPredicate* filterPredicate;
 @property (nonatomic,strong) NSArray* dataToFilter;
-
 @end
 
 @implementation VeeTableViewSearchDelegate
@@ -40,27 +35,29 @@
 
 - (void)searchDisplayControllerWillEndSearch:(UISearchDisplayController*)controller
 {
-    [_searchResultsDelegate handleSearchResults:nil forSearchTableView:self.searchDisplayController.searchResultsTableView];
+    [self.searchResultsDelegate handleSearchResults:nil forSearchTableView:self.searchDisplayController.searchResultsTableView];
 }
 
 - (void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope
 {
-    [_searchResultsDelegate handleSearchResults:[self searchResultsForText:searchText] forSearchTableView:self.searchDisplayController.searchResultsTableView];
+    [self.searchResultsDelegate handleSearchResults:[self searchResultsForText:searchText] forSearchTableView:self.searchDisplayController.searchResultsTableView];
 }
 
 - (NSArray*)searchResultsForText:(NSString*)searchText
 {
-    BOOL dataToFilterIsEmpty = ([_dataToFilter count] > 0 == NO);
+    BOOL dataToFilterIsEmpty = ([self.dataToFilter count] > 0 == NO);
     if (dataToFilterIsEmpty){
         return @[];
     }
     if ([searchText isEqualToString:@""]){
-        return _dataToFilter;
+        return self.dataToFilter;
     }
     
     NSDictionary *substitutionVariables = [NSDictionary dictionaryWithObject:searchText forKey:@"searchString"];
-    NSPredicate* predicateWithSubstitution = [_filterPredicate predicateWithSubstitutionVariables:substitutionVariables];
-    return [_dataToFilter filteredArrayUsingPredicate:predicateWithSubstitution];
+    NSPredicate* predicateWithSubstitution = [self.filterPredicate predicateWithSubstitutionVariables:substitutionVariables];
+    return [self.dataToFilter filteredArrayUsingPredicate:predicateWithSubstitution];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

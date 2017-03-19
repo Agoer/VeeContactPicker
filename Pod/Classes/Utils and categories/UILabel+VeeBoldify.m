@@ -1,9 +1,6 @@
-//
-//  Created by Andrea Cipriani on 05/01/16.
-//  Copyright © 2016 Code Atlas SRL. All rights reserved.
-//
-
 #import "UILabel+VeeBoldify.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation UILabel (VeeBoldify)
 
@@ -24,3 +21,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

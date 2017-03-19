@@ -1,11 +1,8 @@
-//
-//  Created by Andrea Cipriani on 18/03/16.
-//  Copyright © 2015 Code Atlas SRL. All rights reserved.
-//
-
-#import "VeeSectionable.h"
-#import <Foundation/Foundation.h>
+@import Foundation;
 @import UIKit;
+#import "VeeSectionable.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 @interface VeeSectionedArrayDataSource : NSObject <UITableViewDataSource>
 
@@ -31,3 +28,5 @@ typedef void (^ConfigureCellBlock)(id cell, id item);
 - (void)setSearchResults:(NSArray<id<VeeSectionableProt> >*)searchResults forSearchTableView:(UITableView*)searchTableView;
 
 @end
+
+NS_ASSUME_NONNULL_END

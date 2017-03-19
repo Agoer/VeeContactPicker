@@ -1,11 +1,6 @@
-//
-//  Created by Andrea Cipriani on 25/03/16.
-//  Copyright © 2016 Code Atlas SRL. All rights reserved.
-//
-
-#import "VeeSearchResultsDelegate.h"
-#import <Foundation/Foundation.h>
+@import Foundation;
 @import UIKit;
+#import "VeeSearchResultsDelegate.h"
 
 @interface VeeTableViewSearchDelegate : NSObject <UISearchDisplayDelegate>
 

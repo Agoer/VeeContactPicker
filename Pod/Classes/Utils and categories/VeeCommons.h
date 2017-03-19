@@ -1,9 +1,6 @@
-//
-//  Created by Andrea Cipriani on 21/03/16.
-//  Copyright © 2016 Code Atlas SRL. All rights reserved.
-//
+@import Foundation;
 
-#import <Foundation/Foundation.h>
+NS_ASSUME_NONNULL_BEGIN
 
 @interface VeeCommons : NSObject
 
@@ -11,3 +8,5 @@
 + (BOOL)vee_isNotEmpty:(id)obj;
 
 @end
+
+NS_ASSUME_NONNULL_END
