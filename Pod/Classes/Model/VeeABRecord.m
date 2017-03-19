@@ -53,10 +53,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)addRecordIdFromABRecord:(ABRecordRef)abRecord
 {
     NSNumber* recordId = [NSNumber numberWithInt:ABRecordGetRecordID(abRecord)];
-    if (_recordIdsMutable == nil){
-        _recordIdsMutable = [NSMutableSet new];
+    if (self.recordIdsMutable == nil){
+        self.recordIdsMutable = [NSMutableSet new];
     }
-    [_recordIdsMutable addObject:recordId];
+    [self.recordIdsMutable addObject:recordId];
 }
 
 - (void)updateDatesIfEmptyFromABRecord:(ABRecordRef)abRecord
@@ -67,54 +67,54 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)updateCreatedFromABRecordIfItsAfter:(ABRecordRef)abRecord
 {
-    if (!_createdAt) {
-        _createdAt = (__bridge_transfer NSDate*)ABRecordCopyValue(abRecord, kABPersonCreationDateProperty);
+    if (!self.createdAt) {
+        self.createdAt = (__bridge_transfer NSDate*)ABRecordCopyValue(abRecord, kABPersonCreationDateProperty);
         return;
     }
     NSDate* abRecordCreatedAt = (__bridge_transfer NSDate*)ABRecordCopyValue(abRecord, kABPersonCreationDateProperty);
-    BOOL abRecordIsCreatedAfterThanSelf = [_createdAt compare:abRecordCreatedAt] == NSOrderedAscending;
+    BOOL abRecordIsCreatedAfterThanSelf = [self.createdAt compare:abRecordCreatedAt] == NSOrderedAscending;
     if (abRecordIsCreatedAfterThanSelf) {
-        _createdAt = abRecordCreatedAt;
+        self.createdAt = abRecordCreatedAt;
     }
 }
 
 - (void)updateModifiedFromABRecordRefIfItsAfter:(ABRecordRef)abRecord
 {
-    if (!_modifiedAt) {
-        _modifiedAt = (__bridge_transfer NSDate*)ABRecordCopyValue(abRecord, kABPersonModificationDateProperty);
+    if (!self.modifiedAt) {
+        self.modifiedAt = (__bridge_transfer NSDate*)ABRecordCopyValue(abRecord, kABPersonModificationDateProperty);
     }
     NSDate* abRecordModifiedAt = (__bridge_transfer NSDate*)ABRecordCopyValue(abRecord, kABPersonModificationDateProperty);
-    BOOL abRecordIsModifedAfterThanSelf = [_modifiedAt compare:abRecordModifiedAt] == NSOrderedAscending;
+    BOOL abRecordIsModifedAfterThanSelf = [self.modifiedAt compare:abRecordModifiedAt] == NSOrderedAscending;
     if (abRecordIsModifedAfterThanSelf) {
-        _modifiedAt = abRecordModifiedAt;
+        self.modifiedAt = abRecordModifiedAt;
     }
 }
 
 - (void)updateNameComponentsIfEmptyFromABRecord:(ABRecordRef)abRecord
 {
-    if (!_firstName) {
-        _firstName = CFBridgingRelease(ABRecordCopyValue(abRecord, kABPersonFirstNameProperty));
+    if (!self.firstName) {
+        self.firstName = CFBridgingRelease(ABRecordCopyValue(abRecord, kABPersonFirstNameProperty));
     }
-    if (!_lastName) {
-        _lastName = CFBridgingRelease(ABRecordCopyValue(abRecord, kABPersonLastNameProperty));
+    if (!self.lastName) {
+        self.lastName = CFBridgingRelease(ABRecordCopyValue(abRecord, kABPersonLastNameProperty));
     }
-    if (!_middleName) {
-        _middleName = CFBridgingRelease(ABRecordCopyValue(abRecord, kABPersonMiddleNameProperty));
+    if (!self.middleName) {
+        self.middleName = CFBridgingRelease(ABRecordCopyValue(abRecord, kABPersonMiddleNameProperty));
     }
-    if (!_nickname) {
-        _nickname = CFBridgingRelease(ABRecordCopyValue(abRecord, kABPersonNicknameProperty));
+    if (!self.nickname) {
+        self.nickname = CFBridgingRelease(ABRecordCopyValue(abRecord, kABPersonNicknameProperty));
     }
-    if (!_organizationName) {
-        _organizationName = CFBridgingRelease(ABRecordCopyValue(abRecord, kABPersonOrganizationProperty));
+    if (!self.organizationName) {
+        self.organizationName = CFBridgingRelease(ABRecordCopyValue(abRecord, kABPersonOrganizationProperty));
     }
-    if (!_compositeName) {
-        _compositeName = CFBridgingRelease(ABRecordCopyCompositeName(abRecord));
+    if (!self.compositeName) {
+        self.compositeName = CFBridgingRelease(ABRecordCopyCompositeName(abRecord));
     }
 }
 
 - (void)updateThumbnailImageIfEmptyFromABRecord:(ABRecordRef)abRecord
 {
-    if (_thumbnailImage) {
+    if (self.thumbnailImage) {
         return;
     }
     [self updateThumbnailImageFromABRecord:abRecord];
@@ -124,7 +124,7 @@ NS_ASSUME_NONNULL_BEGIN
 {
     if (ABPersonHasImageData(abRecord)) {
         NSData* imgData = CFBridgingRelease(ABPersonCopyImageDataWithFormat(abRecord, kABPersonImageFormatThumbnail));
-        _thumbnailImage = [UIImage imageWithData:imgData];
+        self.thumbnailImage = [UIImage imageWithData:imgData];
     }
 }
 
@@ -135,10 +135,10 @@ NS_ASSUME_NONNULL_BEGIN
     if (phoneNumbersCount > 0) {
         for (CFIndex i = 0; i < phoneNumbersCount; i++) {
             NSString* phoneNumber = CFBridgingRelease(ABMultiValueCopyValueAtIndex(phoneNumbers, i));
-            if (_phoneNumbersMutable == nil){
-                _phoneNumbersMutable = [NSMutableSet new];
+            if (self.phoneNumbersMutable == nil){
+                self.phoneNumbersMutable = [NSMutableSet new];
             }
-            [_phoneNumbersMutable addObject:phoneNumber];
+            [self.phoneNumbersMutable addObject:phoneNumber];
         }
     }
 }
@@ -150,10 +150,10 @@ NS_ASSUME_NONNULL_BEGIN
     if (emailsCount > 0) {
         for (CFIndex i = 0; i < emailsCount; i++) {
             NSString* email = CFBridgingRelease(ABMultiValueCopyValueAtIndex(emails, i));
-            if (_emailsMutable == nil){
-                _emailsMutable = [NSMutableSet new];
+            if (self.emailsMutable == nil){
+                self.emailsMutable = [NSMutableSet new];
             }
-            [_emailsMutable addObject:email];
+            [self.emailsMutable addObject:email];
         }
     }
 }
@@ -165,11 +165,11 @@ NS_ASSUME_NONNULL_BEGIN
     if (postalAddressCount > 0){
         for (CFIndex i = 0; i < postalAddressCount; i++) {
             NSDictionary* postalDict = CFBridgingRelease(ABMultiValueCopyValueAtIndex(postalAddresses, i));
-            if (_postalAddressesMutable == nil){
-                _postalAddressesMutable = [NSMutableSet new];
+            if (self.postalAddressesMutable == nil){
+                self.postalAddressesMutable = [NSMutableSet new];
             }
             if (postalDict){
-                [_postalAddressesMutable addObject:postalDict];
+                [self.postalAddressesMutable addObject:postalDict];
             }
         }
     }
@@ -180,10 +180,10 @@ NS_ASSUME_NONNULL_BEGIN
     ABMultiValueRef websites = ABRecordCopyValue(abRecord, kABPersonURLProperty);
     for (CFIndex i = 0; i < ABMultiValueGetCount(websites); i++) {
         NSString* website = (__bridge_transfer NSString*)ABMultiValueCopyValueAtIndex(websites, i);
-        if (_websitesMutable == nil){
-            _websitesMutable = [NSMutableSet new];
+        if (self.websitesMutable == nil){
+            self.websitesMutable = [NSMutableSet new];
         }
-        [_websitesMutable addObject:website];
+        [self.websitesMutable addObject:website];
     }
 }
 
@@ -197,16 +197,16 @@ NS_ASSUME_NONNULL_BEGIN
             NSString* username = [socialDict objectForKey:(__bridge_transfer NSString*)kABPersonSocialProfileUsernameKey];
             
             if ([service isEqualToString:(__bridge_transfer NSString*)kABPersonSocialProfileServiceTwitter]) {
-                if (_twitterAccountsMutable == nil){
-                    _twitterAccountsMutable = [NSMutableSet new];
+                if (self.twitterAccountsMutable == nil){
+                    self.twitterAccountsMutable = [NSMutableSet new];
                 }
-                [_twitterAccountsMutable addObject:username];
+                [self.twitterAccountsMutable addObject:username];
             }
             else if ([service isEqualToString:(__bridge_transfer NSString*)kABPersonSocialProfileServiceFacebook]) {
-                if (_facebookAccountsMutable == nil){
-                    _facebookAccountsMutable = [NSMutableSet new];
+                if (self.facebookAccountsMutable == nil){
+                    self.facebookAccountsMutable = [NSMutableSet new];
                 }
-                [_facebookAccountsMutable addObject:username];
+                [self.facebookAccountsMutable addObject:username];
             }
         }
     }
@@ -216,37 +216,37 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSArray<NSNumber*>*)recordIds
 {
-    return [NSArray arrayWithArray:[_recordIdsMutable allObjects]];
+    return [NSArray arrayWithArray:[self.recordIdsMutable allObjects]];
 }
 
 - (NSArray<NSString*>*)phoneNumbers
 {
-    return [NSArray arrayWithArray:[_phoneNumbersMutable allObjects]];
+    return [NSArray arrayWithArray:[self.phoneNumbersMutable allObjects]];
 }
 
 - (NSArray<NSString*>*)emails
 {
-    return [NSArray arrayWithArray:[_emailsMutable allObjects]];
+    return [NSArray arrayWithArray:[self.emailsMutable allObjects]];
 }
 
 - (NSArray<NSDictionary*>*)postalAddresses
 {
-    return [NSArray arrayWithArray:[_postalAddressesMutable allObjects]];
+    return [NSArray arrayWithArray:[self.postalAddressesMutable allObjects]];
 }
 
 - (NSArray<NSString*>*)websites
 {
-    return [NSArray arrayWithArray:[_websitesMutable allObjects]];
+    return [NSArray arrayWithArray:[self.websitesMutable allObjects]];
 }
 
 - (NSArray<NSString*>*)twitterAccounts
 {
-    return [NSArray arrayWithArray:[_twitterAccountsMutable allObjects]];
+    return [NSArray arrayWithArray:[self.twitterAccountsMutable allObjects]];
 }
 
 - (NSArray<NSString*>*)facebookAccounts
 {
-    return [NSArray arrayWithArray:[_facebookAccountsMutable allObjects]];
+    return [NSArray arrayWithArray:[self.facebookAccountsMutable allObjects]];
 }
 
 #pragma mark - Postal address keys constants
