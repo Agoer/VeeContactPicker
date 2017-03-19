@@ -1,0 +1,6 @@
+framework module VeeContactPicker {
+  umbrella header "VeeContactPicker-iOS7.0-umbrella.h"
+
+  export *
+  module * { export * }
+}

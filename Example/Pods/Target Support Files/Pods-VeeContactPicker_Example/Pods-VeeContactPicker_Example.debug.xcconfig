@@ -1,6 +1,9 @@
+ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO
+FRAMEWORK_SEARCH_PATHS = $(inherited) "$PODS_CONFIGURATION_BUILD_DIR/FLKAutoLayout-iOS7.0" "$PODS_CONFIGURATION_BUILD_DIR/UIImageView-AGCInitials-iOS7.0" "$PODS_CONFIGURATION_BUILD_DIR/VeeContactPicker-iOS7.0"
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
 LD_RUNPATH_SEARCH_PATHS = $(inherited) '@executable_path/Frameworks' '@loader_path/Frameworks'
-OTHER_CFLAGS = $(inherited) -iquote "$CONFIGURATION_BUILD_DIR/FLKAutoLayout.framework/Headers" -iquote "$CONFIGURATION_BUILD_DIR/UIImageView_AGCInitials.framework/Headers" -iquote "$CONFIGURATION_BUILD_DIR/VeeContactPicker.framework/Headers"
+OTHER_CFLAGS = $(inherited) -iquote "$PODS_CONFIGURATION_BUILD_DIR/FLKAutoLayout-iOS7.0/FLKAutoLayout.framework/Headers" -iquote "$PODS_CONFIGURATION_BUILD_DIR/UIImageView-AGCInitials-iOS7.0/UIImageView_AGCInitials.framework/Headers" -iquote "$PODS_CONFIGURATION_BUILD_DIR/VeeContactPicker-iOS7.0/VeeContactPicker.framework/Headers"
 OTHER_LDFLAGS = $(inherited) -framework "FLKAutoLayout" -framework "UIImageView_AGCInitials" -framework "VeeContactPicker"
-PODS_FRAMEWORK_BUILD_PATH = $(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/Pods-VeeContactPicker_Example
+PODS_BUILD_DIR = $BUILD_DIR
+PODS_CONFIGURATION_BUILD_DIR = $PODS_BUILD_DIR/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)
 PODS_ROOT = ${SRCROOT}/Pods
