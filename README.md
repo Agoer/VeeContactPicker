@@ -129,7 +129,7 @@ pod "VeeContactPicker"
 
 ### Author
 
-Andrea Cipriani - Code Atlas SRL - info@codeatlas.it
+Andrea Cipriani - Code Atlas SRL - andrea.g.cipriani@gmail.com
 
 ### License
 
