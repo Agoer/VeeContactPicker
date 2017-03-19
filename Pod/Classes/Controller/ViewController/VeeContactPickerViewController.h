@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithDefaultConfiguration;
 - (instancetype)initWithOptions:(VeeContactPickerOptions*)veeContactPickerOptions;
 - (instancetype)initWithVeeContacts:(NSArray<id<VeeContactProt>>*)veeContacts;
-- (instancetype)initWithOptions:(VeeContactPickerOptions*)veeContactPickerOptions andVeeContacts:(NSArray<id<VeeContactProt>>*)veeContacts;
+- (instancetype)initWithOptions:(VeeContactPickerOptions*)veeContactPickerOptions andVeeContacts:(NSArray<id<VeeContactProt>>*)veeContacts NS_DESIGNATED_INITIALIZER;
 
 #pragma mark - Delegate and completion handler
 

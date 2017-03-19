@@ -29,7 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (BOOL)searchDisplayController:(UISearchDisplayController*)controller shouldReloadTableForSearchString:(NSString*)searchString
 {
-    [self filterContentForSearchText:searchString scope:[[self.searchDisplayController.searchBar scopeButtonTitles] objectAtIndex:[self.searchDisplayController.searchBar selectedScopeButtonIndex]]];
+    [self filterContentForSearchText:searchString scope:(self.searchDisplayController.searchBar).scopeButtonTitles[(self.searchDisplayController.searchBar).selectedScopeButtonIndex]];
     return YES;
 }
 
@@ -45,7 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSArray*)searchResultsForText:(NSString*)searchText
 {
-    BOOL dataToFilterIsEmpty = ([self.dataToFilter count] > 0 == NO);
+    BOOL dataToFilterIsEmpty = ((self.dataToFilter).count > 0 == NO);
     if (dataToFilterIsEmpty){
         return @[];
     }
@@ -53,7 +53,7 @@ NS_ASSUME_NONNULL_BEGIN
         return self.dataToFilter;
     }
     
-    NSDictionary *substitutionVariables = [NSDictionary dictionaryWithObject:searchText forKey:@"searchString"];
+    NSDictionary *substitutionVariables = @{@"searchString": searchText};
     NSPredicate* predicateWithSubstitution = [self.filterPredicate predicateWithSubstitutionVariables:substitutionVariables];
     return [self.dataToFilter filteredArrayUsingPredicate:predicateWithSubstitution];
 }

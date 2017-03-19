@@ -8,7 +8,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 typedef void (^ConfigureCellBlock)(id cell, id item);
 
-- (instancetype)initWithItems:(NSArray<id<VeeSectionableProt> >*)items cellIdentifier:(NSString*)cellIdentifier allowedSortedSectionIdentifiers:(NSArray<NSString*>*)allowedSortedSectionIdentifiers sectionIdentifierWildcard:(NSString*)sectionIdentifierWildcard configurationCellBlock:(ConfigureCellBlock)block;
+- (instancetype)initWithItems:(NSArray<id<VeeSectionableProt> >*)items cellIdentifier:(NSString*)cellIdentifier allowedSortedSectionIdentifiers:(NSArray<NSString*>*)allowedSortedSectionIdentifiers sectionIdentifierWildcard:(NSString*)sectionIdentifierWildcard configurationCellBlock:(ConfigureCellBlock)block NS_DESIGNATED_INITIALIZER;
 
 #pragma mark - UITableViewDataSource
 

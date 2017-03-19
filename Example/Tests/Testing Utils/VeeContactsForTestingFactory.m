@@ -82,7 +82,7 @@
 +(NSString*)randomEntryInTxtFileNamed:(NSString*)fileName
 {
     NSArray* randomEntries = [self linesOfTxtFileNamed:fileName];
-    return randomEntries[arc4random() % [randomEntries count]];
+    return randomEntries[arc4random() % randomEntries.count];
 }
 
 +(UIImage*)randomPortraitImage

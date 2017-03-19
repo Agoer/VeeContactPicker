@@ -10,8 +10,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-- (instancetype)initWithVeeABRecord:(VeeABRecord*)veeABRecord;
-- (instancetype)initWithFirstName:(NSString*)firstName middleName:(NSString*)middleName lastName:(NSString*)lastName nickName:(NSString*)nickName organizationName:(NSString*)organizationName compositeName:(NSString*)compositeName thubnailImage:(UIImage*)thumbnailImage phoneNumbers:(NSArray<NSString*>*)phoneNumbers emails:(NSArray<NSString*>*)emails;
+- (instancetype)initWithVeeABRecord:(VeeABRecord*)veeABRecord NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithFirstName:(NSString*)firstName middleName:(NSString*)middleName lastName:(NSString*)lastName nickName:(NSString*)nickName organizationName:(NSString*)organizationName compositeName:(NSString*)compositeName thubnailImage:(UIImage*)thumbnailImage phoneNumbers:(NSArray<NSString*>*)phoneNumbers emails:(NSArray<NSString*>*)emails NS_DESIGNATED_INITIALIZER;
 
 #pragma mark - Readonly
 
@@ -37,9 +37,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Getters
 
-- (NSString*)displayName; // It's based on which fields are not nil, in this order: "FirstName LastName" - "OrganizationName" - "LastName" - "First Name" - "Middle Name" - "Nickname" - "emailAddress[0]"
-- (NSString*)displayNameSortedForABOptions; //Display name sorted considering sort-ordering preference for lists of persons in the address book. See ABPersonGetSortOrdering()
-- (NSString*)sectionIdentifier; //In which section should the contact be? This is the title of that section
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString * _Nonnull displayName; // It's based on which fields are not nil, in this order: "FirstName LastName" - "OrganizationName" - "LastName" - "First Name" - "Middle Name" - "Nickname" - "emailAddress[0]"
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString * _Nonnull displayNameSortedForABOptions; //Display name sorted considering sort-ordering preference for lists of persons in the address book. See ABPersonGetSortOrdering()
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString * _Nonnull sectionIdentifier; //In which section should the contact be? This is the title of that section
 
 #pragma mark - Search predicate
 

@@ -26,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
         _allowedSortedSectionIdentifiers = allowedSortedSectionIdentifiers;
         _sectionIdentifierWildcard = sectionIdentifierWildcard;
         _sectionedItems = [self sectionedItems:items];
-        _sortedNonEmptySectionIdentifiers = [self nonEmptySortedSectionIdentifiers:[_sectionedItems allKeys]];
+        _sortedNonEmptySectionIdentifiers = [self nonEmptySortedSectionIdentifiers:_sectionedItems.allKeys];
         _cellIdentifier = cellIdentifier;
         if (configureCellBlock){
             _configureCellBlock = configureCellBlock;
@@ -45,7 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
 {
     BOOL isSearchTableView = [self isSearchTableView:tableView];
     NSArray<id<VeeSectionableProt>>* itemsForSection = [self itemsForSection:indexPath.section isSearchTableView:isSearchTableView];
-    return [itemsForSection objectAtIndex:indexPath.row];
+    return itemsForSection[indexPath.row];
 }
 
 -(void)setSearchResults:(NSArray<id<VeeSectionableProt>>*)searchResults forSearchTableView:(UITableView*)searchTableView
@@ -55,14 +55,14 @@ NS_ASSUME_NONNULL_BEGIN
     }
     if (searchResults){
         self.sectionedSearchedItems = [self sectionedItems:searchResults];
-        self.sortedSearchedNonEmptySectionIdentifiers = [self nonEmptySortedSectionIdentifiers:[self.sectionedSearchedItems allKeys]];
+        self.sortedSearchedNonEmptySectionIdentifiers = [self nonEmptySortedSectionIdentifiers:(self.sectionedSearchedItems).allKeys];
     }
 }
 
 -(NSString*)sectionIdentifierForItem:(id<VeeSectionableProt>)item
 {
     NSString* sectionIdenfier = [item sectionIdentifier];
-    if (sectionIdenfier == nil || [[self allowedSortedSectionIdentifiers] containsObject:sectionIdenfier] == NO){
+    if (sectionIdenfier == nil || [self.allowedSortedSectionIdentifiers containsObject:sectionIdenfier] == NO){
         return self.sectionIdentifierWildcard;
     }
     return sectionIdenfier;
@@ -75,12 +75,12 @@ NS_ASSUME_NONNULL_BEGIN
     NSMutableDictionary<NSString*,NSArray<id<VeeSectionableProt>>*>* sectionedItemsMutable = [NSMutableDictionary new];
     for (id item in items) {
         NSString* itemSectionIdentifier = [self sectionIdentifierForItem:item];
-        NSArray* itemsForThisSectionIdentifier = [sectionedItemsMutable objectForKey:itemSectionIdentifier];
+        NSArray* itemsForThisSectionIdentifier = sectionedItemsMutable[itemSectionIdentifier];
         if (itemsForThisSectionIdentifier == nil) {
-            [sectionedItemsMutable setObject:[NSArray arrayWithObject:item] forKey:itemSectionIdentifier];
+            sectionedItemsMutable[itemSectionIdentifier] = @[item];
         }
         else {
-            [sectionedItemsMutable setObject:[itemsForThisSectionIdentifier arrayByAddingObject:item] forKey:itemSectionIdentifier];
+            sectionedItemsMutable[itemSectionIdentifier] = [itemsForThisSectionIdentifier arrayByAddingObject:item];
         }
     }
     return [NSDictionary dictionaryWithDictionary:sectionedItemsMutable];
@@ -104,15 +104,15 @@ NS_ASSUME_NONNULL_BEGIN
 {
     BOOL isSearchTableView = [self isSearchTableView:tableView];
     if (isSearchTableView){
-        return [[self.sectionedSearchedItems allKeys] count];
+        return (self.sectionedSearchedItems).allKeys.count;
     }
-    return [[self.sectionedItems allKeys] count];
+    return (self.sectionedItems).allKeys.count;
 }
 
 - (NSInteger)tableView:(UITableView*)tableView numberOfRowsInSection:(NSInteger)section
 {
     BOOL isSearchTableView = [self isSearchTableView:tableView];
-    return [[self itemsForSection:section isSearchTableView:isSearchTableView] count];
+    return [self itemsForSection:section isSearchTableView:isSearchTableView].count;
 }
 
 - (NSString*)tableView:(UITableView*)tableView titleForHeaderInSection:(NSInteger)section
@@ -140,17 +140,17 @@ NS_ASSUME_NONNULL_BEGIN
 {
     NSString* sectionIdentifier = [self sectionIdentifierFromSection:section isSearchTableView:isSearchTableView];
     if (isSearchTableView){
-        return [self.sectionedSearchedItems objectForKey:sectionIdentifier];
+        return (self.sectionedSearchedItems)[sectionIdentifier];
     }
-    return [self.sectionedItems objectForKey:sectionIdentifier];
+    return (self.sectionedItems)[sectionIdentifier];
 }
 
 -(NSString*)sectionIdentifierFromSection:(NSUInteger)section isSearchTableView:(BOOL)isSearchTableView
 {
     if (isSearchTableView){
-        return [self.sortedSearchedNonEmptySectionIdentifiers objectAtIndex:section];
+        return (self.sortedSearchedNonEmptySectionIdentifiers)[section];
     }
-    return [self.sortedNonEmptySectionIdentifiers objectAtIndex:section];
+    return (self.sortedNonEmptySectionIdentifiers)[section];
 }
 
 -(BOOL)isSearchTableView:(UITableView*)tableView

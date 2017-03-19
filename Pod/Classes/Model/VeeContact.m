@@ -18,19 +18,19 @@
 {
     self = [super init];
     if (self) {
-        _recordIds = [veeABRecord recordIds];
-        _firstName = [veeABRecord firstName];
-        _lastName = [veeABRecord lastName];
-        _middleName = [veeABRecord middleName];
-        _compositeName = [veeABRecord compositeName];
-        _nickname = [veeABRecord nickname];
-        _organizationName = [veeABRecord organizationName];
-        _thumbnailImage = [veeABRecord thumbnailImage];
-        _phoneNumbers = [veeABRecord phoneNumbers];
-        _emails = [veeABRecord emails];
+        _recordIds = veeABRecord.recordIds;
+        _firstName = veeABRecord.firstName;
+        _lastName = veeABRecord.lastName;
+        _middleName = veeABRecord.middleName;
+        _compositeName = veeABRecord.compositeName;
+        _nickname = veeABRecord.nickname;
+        _organizationName = veeABRecord.organizationName;
+        _thumbnailImage = veeABRecord.thumbnailImage;
+        _phoneNumbers = veeABRecord.phoneNumbers;
+        _emails = veeABRecord.emails;
         _postalAddresses = [self postalAddressesFromVeeABRecord:veeABRecord];
-        _twitterAccounts = [veeABRecord twitterAccounts];
-        _facebookAccounts = [veeABRecord facebookAccounts];
+        _twitterAccounts = veeABRecord.twitterAccounts;
+        _facebookAccounts = veeABRecord.facebookAccounts;
     }
     return self;
 }
@@ -121,8 +121,8 @@
     if ([VeeCommons vee_isNotEmpty:_nickname]) {
         return _nickname;
     }
-    if ([_emails count] > 0) {
-        return [_emails firstObject];
+    if (_emails.count > 0) {
+        return _emails.firstObject;
     }
     return @"";
 }
@@ -142,13 +142,13 @@
     NSString* sectionIdentifier;
 
     if ([VeeCommons vee_isEmpty:_firstName] == NO) {
-        sectionIdentifier = [[_firstName substringToIndex:1] uppercaseString];
+        sectionIdentifier = [_firstName substringToIndex:1].uppercaseString;
     }
     else if ([VeeCommons vee_isEmpty:_lastName] == NO) {
-        sectionIdentifier = [[_lastName substringToIndex:1] uppercaseString];
+        sectionIdentifier = [_lastName substringToIndex:1].uppercaseString;
     }
     else if ([VeeCommons vee_isEmpty:[self displayName]] == NO) {
-        sectionIdentifier = [[[self displayName] substringToIndex:1] uppercaseString];
+        sectionIdentifier = [[self displayName] substringToIndex:1].uppercaseString;
     }
     return sectionIdentifier;
 }
@@ -158,13 +158,13 @@
     NSString* sectionIdentifier;
 
     if ([VeeCommons vee_isEmpty:_lastName] == NO) {
-        sectionIdentifier = [[_lastName substringToIndex:1] uppercaseString];
+        sectionIdentifier = [_lastName substringToIndex:1].uppercaseString;
     }
     else if ([VeeCommons vee_isEmpty:_firstName] == NO) {
-        sectionIdentifier = [[_firstName substringToIndex:1] uppercaseString];
+        sectionIdentifier = [_firstName substringToIndex:1].uppercaseString;
     }
     else if ([VeeCommons vee_isEmpty:[self displayName]] == NO) {
-        sectionIdentifier = [[[self displayName] substringToIndex:1] uppercaseString];
+        sectionIdentifier = [[self displayName] substringToIndex:1].uppercaseString;
     }
     return sectionIdentifier;
 }
@@ -239,9 +239,9 @@
         return YES;
     }
 
-    NSArray<NSNumber*>* sortedRecordIds = [[self recordIds] sortedArrayUsingSelector:@selector(compare:)];
+    NSArray<NSNumber*>* sortedRecordIds = [self.recordIds sortedArrayUsingSelector:@selector(compare:)];
 
-    NSArray<NSNumber*>* veeContactSortedRecordIds = [[veecontact recordIds] sortedArrayUsingSelector:@selector(compare:)];
+    NSArray<NSNumber*>* veeContactSortedRecordIds = [veecontact.recordIds sortedArrayUsingSelector:@selector(compare:)];
 
     if ([sortedRecordIds isEqualToArray:veeContactSortedRecordIds]) {
         return YES;
@@ -251,7 +251,7 @@
 
 - (NSUInteger)hash
 {
-    return [[self recordIds] hash];
+    return self.recordIds.hash;
 }
 
 - (NSString*)description

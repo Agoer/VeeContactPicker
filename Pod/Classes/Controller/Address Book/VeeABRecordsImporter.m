@@ -20,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
         ABRecordRef source = (__bridge ABRecordRef)(allSources[s]);
         [veeABRecords addObjectsFromArray:[self importVeeABRecordsFromSingleSource:source ofAddressBook:addressBook]];
     }
-    return [NSArray arrayWithArray:[veeABRecords allObjects]];
+    return [NSArray arrayWithArray:veeABRecords.allObjects];
 }
 
 - (NSArray<VeeABRecord*>*)importVeeABRecordsFromSingleSource:(ABRecordRef)source ofAddressBook:(ABAddressBookRef)addressBook

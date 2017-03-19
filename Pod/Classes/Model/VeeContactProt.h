@@ -16,9 +16,9 @@
 @property (nonatomic, strong) NSArray<NSString*>* phoneNumbers;
 @property (nonatomic, strong) NSArray<NSString*>* emails;
 
-- (NSString*)displayName;
-- (NSString*)displayNameSortedForABOptions;
-- (NSString*)sectionIdentifier;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *displayName;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *displayNameSortedForABOptions;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *sectionIdentifier;
 
 + (NSPredicate*)searchPredicateForSearchString;
 

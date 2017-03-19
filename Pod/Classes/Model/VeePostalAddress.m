@@ -26,9 +26,9 @@ NS_ASSUME_NONNULL_BEGIN
     NSString* unifiedAddress = @"";
     NSArray* sortedAddressProperties = [self sortedAddressProperties];
     
-    for (int i = 0; i < [sortedAddressProperties count]; i++) {
-        unifiedAddress = [unifiedAddress stringByAppendingString:[sortedAddressProperties objectAtIndex:i]];
-        if (i != [sortedAddressProperties count] - 1) {
+    for (int i = 0; i < sortedAddressProperties.count; i++) {
+        unifiedAddress = [unifiedAddress stringByAppendingString:sortedAddressProperties[i]];
+        if (i != sortedAddressProperties.count - 1) {
             unifiedAddress = [unifiedAddress stringByAppendingString:@", "];
         }
     }

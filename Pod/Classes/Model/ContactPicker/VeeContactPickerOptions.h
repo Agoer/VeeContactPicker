@@ -8,7 +8,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Init
 
-- (instancetype)initWithDefaultOptions;
+- (instancetype)initWithDefaultOptions NS_DESIGNATED_INITIALIZER;
 + (VeeContactPickerOptions*)defaultOptions;
 
 @property (nonatomic, strong) VeeContactPickerStrings* veeContactPickerStrings;

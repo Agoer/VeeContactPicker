@@ -3,7 +3,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol VeeSectionableProt <NSObject>
-- (NSString*)sectionIdentifier;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString * _Nonnull sectionIdentifier;
 @end
 
 NS_ASSUME_NONNULL_END

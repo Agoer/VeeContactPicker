@@ -9,7 +9,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Initializers
 
-- (instancetype)initWithVeePickerOptions:(VeeContactPickerOptions*)veeContactPickerOptions;
+- (instancetype)initWithVeePickerOptions:(VeeContactPickerOptions*)veeContactPickerOptions NS_DESIGNATED_INITIALIZER;
 
 #pragma mark - Public Methods
 

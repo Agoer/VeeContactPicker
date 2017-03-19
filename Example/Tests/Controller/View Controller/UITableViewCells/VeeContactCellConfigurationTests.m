@@ -74,7 +74,7 @@
     id primaryLabelMock = [OCMockObject partialMockForObject:[UILabel new]];
     _veeContactUITableViewCell.primaryLabel = primaryLabelMock;
     [_veeContactCellConfigurationWithDefaultOption configureCell:_veeContactUITableViewCell forVeeContact:_veeContactComplete];
-    NSString* nameComponentToBoldify = [[[_veeContactComplete displayNameSortedForABOptions] componentsSeparatedByString:@" "] firstObject];
+    NSString* nameComponentToBoldify = [[_veeContactComplete displayNameSortedForABOptions] componentsSeparatedByString:@" "].firstObject;
     OCMVerify([primaryLabelMock vee_boldSubstring:nameComponentToBoldify]);
 }
 
@@ -115,7 +115,7 @@
 
 - (void)loadEmptyVeeContactUITableViewCell
 {
-    NSString* cellIdentifier = [[VeeContactPickerAppearanceConstants sharedInstance] veeContactCellIdentifier];
+    NSString* cellIdentifier = [VeeContactPickerAppearanceConstants sharedInstance].veeContactCellIdentifier;
     _veeContactUITableViewCell =  [[VeeContactUITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
 }
 

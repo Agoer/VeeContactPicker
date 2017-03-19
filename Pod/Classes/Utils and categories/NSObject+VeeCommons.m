@@ -14,13 +14,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSString*)vee_formattedDescriptionOfArray:(NSArray*)array
 {
-    if (array == nil || [array count] == 0) {
+    if (array == nil || array.count == 0) {
         return @"[]";
     }
     NSMutableString* arrayDescriptionMutable = [[NSMutableString alloc] initWithString:@"["];
     for (id obj in array) {
         [arrayDescriptionMutable appendString:[NSString stringWithFormat:@"%@", [obj description]]];
-        BOOL isNotLastObject = [obj isEqual:[array lastObject]] == NO;
+        BOOL isNotLastObject = [obj isEqual:array.lastObject] == NO;
         if (isNotLastObject) {
             [arrayDescriptionMutable appendString:@"; "];
         }

@@ -4,12 +4,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol VeePostalAddressProt <NSObject>
 
-- (NSString*)street;
-- (NSString*)city;
-- (NSString*)state;
-- (NSString*)postal;
-- (NSString*)country;
-- (NSString*)unifiedAddress;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString * _Nonnull street;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString * _Nonnull city;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString * _Nonnull state;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString * _Nonnull postal;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString * _Nonnull country;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString * _Nonnull unifiedAddress;
 
 @end
 

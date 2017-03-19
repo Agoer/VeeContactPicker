@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 {
     if (self = [super init]) {
         _veeContactPickerStrings = [VeeContactPickerStrings defaultStrings];
-        _sectionIdentifiers = [[UILocalizedIndexedCollation currentCollation] sectionIndexTitles];
+        _sectionIdentifiers = [UILocalizedIndexedCollation currentCollation].sectionIndexTitles;
         _sectionIdentifierWildcard = @"#";
         _showInitialsPlaceholder = YES;
         _contactThumbnailImagePlaceholder = nil;

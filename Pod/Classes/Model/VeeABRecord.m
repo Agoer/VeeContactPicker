@@ -3,6 +3,22 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface VeeABRecord()
+@property (nonatomic, strong) NSArray<NSNumber*> *recordIds;
+@property (nonatomic, strong) NSDate *modifiedAt;
+@property (nonatomic, strong) NSDate *createdAt;
+@property (nonatomic, copy) NSString *firstName;
+@property (nonatomic, copy) NSString *lastName;
+@property (nonatomic, copy) NSString *middleName;
+@property (nonatomic, copy) NSString *nickname;
+@property (nonatomic, copy) NSString *organizationName;
+@property (nonatomic, copy) NSString *compositeName;
+@property (nonatomic, strong) UIImage *thumbnailImage;
+@property (nonatomic, strong) NSArray<NSString*> *phoneNumbers;
+@property (nonatomic, strong) NSArray<NSString*> *emails;
+@property (nonatomic, strong) NSArray<NSDictionary*> *postalAddresses;
+@property (nonatomic, strong) NSArray<NSString*> *websites;
+@property (nonatomic, strong) NSArray<NSString*> *facebookAccounts;
+@property (nonatomic, strong) NSArray<NSString*> *twitterAccounts;
 @property (nonatomic, strong) NSMutableSet<NSNumber*>* recordIdsMutable;
 @property (nonatomic, strong) NSMutableSet<NSString*>* phoneNumbersMutable;
 @property (nonatomic, strong) NSMutableSet<NSString*>* emailsMutable;
@@ -52,7 +68,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)addRecordIdFromABRecord:(ABRecordRef)abRecord
 {
-    NSNumber* recordId = [NSNumber numberWithInt:ABRecordGetRecordID(abRecord)];
+    NSNumber* recordId = @(ABRecordGetRecordID(abRecord));
     if (self.recordIdsMutable == nil){
         self.recordIdsMutable = [NSMutableSet new];
     }
@@ -193,8 +209,8 @@ NS_ASSUME_NONNULL_BEGIN
     for (CFIndex i = 0; i < ABMultiValueGetCount(socialAccounts); i++) {
         NSDictionary* socialDict = CFBridgingRelease(ABMultiValueCopyValueAtIndex(socialAccounts, i));
         if (socialDict) {
-            NSString* service = [socialDict objectForKey:(__bridge_transfer NSString*)kABPersonSocialProfileServiceKey];
-            NSString* username = [socialDict objectForKey:(__bridge_transfer NSString*)kABPersonSocialProfileUsernameKey];
+            NSString* service = socialDict[(__bridge_transfer NSString*)kABPersonSocialProfileServiceKey];
+            NSString* username = socialDict[(__bridge_transfer NSString*)kABPersonSocialProfileUsernameKey];
             
             if ([service isEqualToString:(__bridge_transfer NSString*)kABPersonSocialProfileServiceTwitter]) {
                 if (self.twitterAccountsMutable == nil){
@@ -216,37 +232,37 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSArray<NSNumber*>*)recordIds
 {
-    return [NSArray arrayWithArray:[self.recordIdsMutable allObjects]];
+    return [NSArray arrayWithArray:(self.recordIdsMutable).allObjects];
 }
 
 - (NSArray<NSString*>*)phoneNumbers
 {
-    return [NSArray arrayWithArray:[self.phoneNumbersMutable allObjects]];
+    return [NSArray arrayWithArray:(self.phoneNumbersMutable).allObjects];
 }
 
 - (NSArray<NSString*>*)emails
 {
-    return [NSArray arrayWithArray:[self.emailsMutable allObjects]];
+    return [NSArray arrayWithArray:(self.emailsMutable).allObjects];
 }
 
 - (NSArray<NSDictionary*>*)postalAddresses
 {
-    return [NSArray arrayWithArray:[self.postalAddressesMutable allObjects]];
+    return [NSArray arrayWithArray:(self.postalAddressesMutable).allObjects];
 }
 
 - (NSArray<NSString*>*)websites
 {
-    return [NSArray arrayWithArray:[self.websitesMutable allObjects]];
+    return [NSArray arrayWithArray:(self.websitesMutable).allObjects];
 }
 
 - (NSArray<NSString*>*)twitterAccounts
 {
-    return [NSArray arrayWithArray:[self.twitterAccountsMutable allObjects]];
+    return [NSArray arrayWithArray:(self.twitterAccountsMutable).allObjects];
 }
 
 - (NSArray<NSString*>*)facebookAccounts
 {
-    return [NSArray arrayWithArray:[self.facebookAccountsMutable allObjects]];
+    return [NSArray arrayWithArray:(self.facebookAccountsMutable).allObjects];
 }
 
 #pragma mark - Postal address keys constants
@@ -275,8 +291,8 @@ NSString* const kVeePostalAddressCountryKey = @"Country";
     if (self == veeABRecord) {
         return YES;
     }
-    NSArray<NSNumber*>* sortedRecordIds = [[self recordIds] sortedArrayUsingSelector:@selector(compare:)];
-    NSArray<NSNumber*>* veeABRecordsSortedRecordIds = [[veeABRecord recordIds] sortedArrayUsingSelector:@selector(compare:)];
+    NSArray<NSNumber*>* sortedRecordIds = [self.recordIds sortedArrayUsingSelector:@selector(compare:)];
+    NSArray<NSNumber*>* veeABRecordsSortedRecordIds = [veeABRecord.recordIds sortedArrayUsingSelector:@selector(compare:)];
                                                      
     if ([sortedRecordIds isEqualToArray:veeABRecordsSortedRecordIds]) {
         return YES;
@@ -286,7 +302,7 @@ NSString* const kVeePostalAddressCountryKey = @"Country";
 
 - (NSUInteger)hash
 {
-    return [[self recordIds] hash];
+    return self.recordIds.hash;
 }
 
 @end

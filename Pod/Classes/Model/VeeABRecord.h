@@ -6,7 +6,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface VeeABRecord : NSObject
 
-- (instancetype)initWithLinkedPeopleOfABRecord:(ABRecordRef)abRecordRef;
+- (instancetype)initWithLinkedPeopleOfABRecord:(ABRecordRef)abRecordRef NS_DESIGNATED_INITIALIZER;
 
 @property (nonatomic, readonly, strong) NSArray<NSNumber*> *recordIds;
 @property (nonatomic, readonly, strong) NSDate *modifiedAt;

@@ -109,7 +109,7 @@ NS_ASSUME_NONNULL_BEGIN
     if ([veeContactDescription hasPrefix:@"<VeeContact,\n {\n"]){
         veeContactDescription = [veeContactDescription substringFromIndex:15];
         if ([veeContactDescription hasSuffix:@"\n}>"]){
-            return [veeContactDescription substringToIndex:[veeContactDescription length]-3];
+            return [veeContactDescription substringToIndex:veeContactDescription.length-3];
         }
     }
     return veeContactDescription;
